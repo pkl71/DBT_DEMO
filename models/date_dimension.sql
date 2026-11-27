@@ -7,7 +7,7 @@ with
             {{ get_season("STARTED_AT") }} as season,
             {{ day_type("STARTED_AT") }} as day_of_week
 
-        from {{ source("demo", "bike") }}
+        from {{ ref('stg_bike') }}
         where started_at != 'started_at'
     )
 
