@@ -1,15 +1,15 @@
-WITH CTE AS (
-select
-STARTED_AT,
-to_timestamp(STARTED_AT) as started_at_timestamp,
-date(to_timestamp(started_at)) as date_started_at_date,
-{{get_season('STARTED_AT')}} as season
+with
+    cte as (
+        select
+            started_at,
+            to_timestamp(started_at) as started_at_timestamp,
+            date(to_timestamp(started_at)) as date_started_at_date,
+            {{ get_season("STARTED_AT") }} as season,
+            {{ day_type("STARTED_AT") }} as day_of_week
 
-from
-{{ source('demo', 'bike') }}
-where STARTED_AT != 'started_at'
-)
+        from {{ source("demo", "bike") }}
+        where started_at != 'started_at'
+    )
 
-select
-*
-from CTE
+select *
+from cte
